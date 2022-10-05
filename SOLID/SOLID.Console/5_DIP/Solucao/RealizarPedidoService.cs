@@ -1,4 +1,6 @@
-﻿namespace SOLID.Console._5_DIP.Solucao;
+﻿using SOLID.Console._5_DIP.Solucao.Interfaces;
+
+namespace SOLID.Console._5_DIP.Solucao;
 
 public class RealizarPedidoService
 {
@@ -13,15 +15,12 @@ public class RealizarPedidoService
 
     public bool Realizar(Pedido pedido)
     {
-        if (pedido.Cliente.Email.Contains('@'))
-            throw new ArgumentException("Email inválido");
-
-        if (pedido.Cliente.Cpf.Length != 11)
-            throw new ArgumentException("CPF inválido");
+        if (!pedido.Validar())
+            return default;
 
         _pedidoRepository.Salvar(pedido);
 
-        _emailService.EnviarEmailPedidoRealizado(pedido.Id, pedido.Cliente.Email);
+        _emailService.EnviarEmailPedidoRealizado(pedido.Id, pedido.Cliente.Email.Endereco);
 
         return true;
     }

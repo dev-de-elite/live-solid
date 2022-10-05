@@ -2,7 +2,7 @@
 
 public class ClienteService
 {
-    public void Executar(Cliente cliente)
+    public void Executar(Pessoa cliente)
     {
         if (!cliente.Validar())
             return;

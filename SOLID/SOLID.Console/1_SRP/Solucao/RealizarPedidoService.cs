@@ -4,16 +4,12 @@ public class RealizarPedidoService
 {
     public async Task<bool> Realizar(Pedido pedido)
     {
-        if (pedido.Cliente.Email.Contains('@'))
-            throw new ArgumentException("Email inválido");
-
-        if (pedido.Cliente.Cpf.Length != 11)
-            throw new ArgumentException("CPF inválido");
-
+        if (!pedido.Validar())
+        {
+            return default;
+        }
         PedidoRepository.Salvar(pedido);
-
-        await EmailService.EnviarEmailPedidoRealizado(pedido.Id, pedido.Cliente.Email);
-
+        await EmailService.EnviarEmailPedidoRealizado(pedido.Id, pedido.Cliente.Email.Endereco);
         return true;
     }
 }
